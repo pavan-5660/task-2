@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake Store API</title>
+  </head>
+  <body>
+    <input type="text" id="product-id" placeholder="Enter product ID..." />
+    <button onclick="productdata()">Search</button>
+
+    <div> <image src="" alt="Product Image" id="image" /></div>
+    <h3 id="title">title</h3>
+    <h4 id="price">price</h4>
+    <p id="description">description</p>
+    <p id="rating">rating</p>
+    <p id="count">count</p>
+    <script>
+      async function productdata(params) {
+        try {
+          const productid = document.getElementById("product-id").value;
+          const response = await fetch(
+            `https://fakestoreapi.com/products/${productid}`
+          );
+          if (!response.ok) {
+            throw new Error("Data not found");
+          }
+          const data = await response.json();
+          const imageelement = document.getElementById("image");
+          imageelement.src = data.image;
+          const titleelement = document.getElementById("title");
+          titleelement.textContent = data.title;
+          const priceelement = document.getElementById("price");
+          priceelement.textContent = data.price;
+          const descriptionelement = document.getElementById("description");
+          descriptionelement.textContent = data.description;
+          const ratingelement = document.getElementById("rating");
+          ratingelement.textContent = data.rating.rate;
+          const countelement = document.getElementById("count");
+          countelement.textContent = data.rating.count;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    </script>
+  </body>
+</html>
